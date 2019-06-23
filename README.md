@@ -1,2 +1,2 @@
 # rev-story-qa
-QA for 
+QA for revenue story
