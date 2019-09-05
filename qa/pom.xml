@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.chargebee.framework</groupId>
-    <artifactId>cb-qa-rev-story</artifactId>
+    <groupId>com.chargebee.qa</groupId>
+    <artifactId>rev-story-qa</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>cb-qa-rev-story</name>
+    <name>rev-story-qa</name>
     <url>http://maven.apache.org</url>
 
     <build>
@@ -44,9 +44,34 @@
             <artifactId>chargebee-framework</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <optional>false</optional>
+            <scope>compile</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.chargebee.framework</groupId>
+            <artifactId>chargebee-page-objects</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+            <optional>false</optional>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.chargebee.framework</groupId>
+            <artifactId>chargebee-apimethods</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+            <optional>false</optional>
+        </dependency>
+
+
+
+
     </dependencies>
+
     <modules>
-        <module>../../chargebee-subscriptions-qa/chargebee-apimethods </module>
+        <module>../../../chargebee-subscriptions-qa/chargebee-framework</module>
+        <module>../../../chargebee-subscriptions-qa/chargebee-page-objects</module>
+        <module>../../../chargebee-subscriptions-qa/chargebee-apimethods</module>
     </modules>
 </project>

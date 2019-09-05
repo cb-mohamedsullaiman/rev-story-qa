@@ -24,6 +24,8 @@ init(){
 	REPORT_CSV="reports.csv"
 	EXP_CSV="expressions.csv"
 	DIRECT_QUERIES="direct_queries.csv"
+	META_FOLDER="$CUR_FOLDER/metas"
+	META_JS_FOLDER="$REV_FOLDER/webapp/assets/javascript/server/javascripts"
 
 	#Loading the contents of utils
 	. $SCRIPTS_FOLDER/functions.sh
@@ -39,6 +41,10 @@ run(){
 	buildChargebeeApp 
 	loadMetas
 	buildRevStory 
+}
+
+printSuccessMessage(){
+	echoExit "\n******Build Successfull*****"
 }
 
 checkDirs(){
@@ -154,7 +160,12 @@ checkoutToBranch(){
 
 disableJob(){
 	echo "Making job exec as false"
-	sed -i '' 's/jobs.exec.enabled=true/jobs.exec.enabled=false/g' $APP_FOLDER/webapp/conf/environment/core/core.conf
+	sed -i '' 's/[:space:]]*jobs.exec.enabled[:space:]]*=[:space:]]*true/jobs.exec.enabled=false/g' $APP_FOLDER/webapp/conf/environment/core/core.conf
+}
+
+enableJob(){
+	echo "Making job exec as true"
+	sed -i '' 's/[:space:]]*jobs.exec.enabled[:space:]]*=[:space:]]*false/jobs.exec.enabled=true/g' $APP_FOLDER/webapp/conf/environment/core/core.conf
 }
 
 addRevMicroService(){
@@ -182,13 +193,14 @@ startServer(){
 	cd $TOMCAT_BIN
 	echo "JOB : $JOB_ENABLED"
 	if  [ $JOB_ENABLED ] && [ "$(pwd)"=="$APP_FOLDER/$TOMCAT_BIN" ]; then
+		enableJob
 		echo "Restarting server with Job pickers"
-		sh $1 jobs start &
+		sh $1
 	else
+		disableJob
 		echo "Restarting server without Job Pickers"
-		sh $1 jobs stop &
+		sh $1 
 	fi
-	echo "\n"
 }
 
 getLastProcessAndKill(){
@@ -219,8 +231,20 @@ executeAction(){
 }
 
 loadMetas(){
-	cp "$CUR_FOLDER/reports.csv" "$REV_FOLDER/webapp/assets/javascript/server/javascripts/reports.csv"
-	cp "$CUR_FOLDER/expressions.csv" "$REV_FOLDER/webapp/assets/javascript/server/javascripts/expressions.csv"
+	if [ -f "$META_FOLDER/$REPORT_CSV" ] ; then
+		cp "$META_FOLDER/$REPORT_CSV" "$META_JS_FOLDER/$REPORT_CSV"
+		if [ -f "$META_FOLDER/$EXP_CSV" ] ; then 
+			cp "$META_FOLDER/$EXP_CSV" "$META_JS_FOLDER/$EXP_CSV"
+		else 
+			printFileNotExists "$META_FOLDER/$EXP_CSV"
+		fi
+	else 
+		printFileNotExists "$META_FOLDER/$REPORT_CSV"
+	fi
+}
+
+printFileNotExists(){
+	echoExit "****$1 does not exists****"
 }
 
 main $*
