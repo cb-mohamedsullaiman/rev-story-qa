@@ -1,14 +1,25 @@
 package main.java.core;
 
+import java.io.FileInputStream;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.Random;
 
-import com.chargebee.framework.apimethods.constants.CbTestConstants;
-import com.chargebee.framework.pages.BasePage;
-import com.chargebee.framework.pages.HomePage;
-import com.chargebee.framework.webdriver.pom.AppTest;
+import com.chargebee.qa.framework.core.Environment;
+import com.chargebee.qa.apimethods.constants.CbTestConstants;
+import com.chargebee.qa.pages.BasePage;
+import com.chargebee.qa.pages.HomePage;
+import com.chargebee.qa.framework.webdriver.pom.AppTest;
+import main.java.utils.CoreUtils;
+import org.junit.BeforeClass;
+
 
 public class BaseTestClass extends AppTest {
+
+    @BeforeClass
+    public void configureEnvironment() throws  Exception{
+        CoreUtils.configureEnvironment();
+    }
 
     public static String environment;
     BasePage basePage = new BasePage(getDriver());

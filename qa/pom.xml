@@ -70,8 +70,8 @@
     </dependencies>
 
     <modules>
-        <module>../../../chargebee-subscriptions-qa/chargebee-framework</module>
-        <module>../../../chargebee-subscriptions-qa/chargebee-page-objects</module>
+        <!--<module>../../../chargebee-subscriptions-qa/chargebee-framework</module>-->
+        <!--<module>../../../chargebee-subscriptions-qa/chargebee-page-objects</module>-->
         <module>../../../chargebee-subscriptions-qa/chargebee-apimethods</module>
     </modules>
 </project>
