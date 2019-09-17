@@ -10,8 +10,19 @@ import java.util.Properties;
 
 public class CoreUtils {
 
-    public static void configureEnvironment() throws Exception{
+    public static Environment configureEnvironment() throws Exception{
         System.setProperty("env.class","main.java.core.RevEnvironment");
+        return Environment.inst;
+
+    }
+
+    public static void  configureTestEnvironment() throws Exception{
+        configureEnvironment();
+        String testSiteName = Environment.getSiteProperty().getTestSiteName();
+        String testApiKey = Environment.getSiteProperty().getTestApiKey();
+
+        com.chargebee.Environment.configure(testSiteName,testApiKey);
+        com.chargebee.v2.Environment.configure(testSiteName,testApiKey);
 
     }
 

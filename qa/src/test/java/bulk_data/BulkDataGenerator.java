@@ -1,4 +1,4 @@
-package test.java;
+package test.java.bulk_data;
 
 import com.chargebee.qa.framework.core.Environment;
 import com.chargebee.qa.pages.*;
@@ -15,31 +15,34 @@ import java.util.Properties;
 
 public class BulkDataGenerator  {
 
+    SubscriptionDataGenerator subscriptionDataGenerator;
 
-    public static void subscription() throws Exception{
-        Result result = Subscription.create()
-                .planId("basic")
-                .customerFirstName("John")
-                .customerLastName("Doe")
-                .customerEmail("john@user.com")
-                .billingAddressFirstName("John")
-                .billingAddressLastName("Doe")
-                .billingAddressLine1("PO Box 9999")
-                .billingAddressCity("Walnut")
-                .billingAddressState("California")
-                .billingAddressZip("91789")
-                .billingAddressCountry("US")
-                .request();
+    public BulkDataGenerator() throws Exception{
+        subscriptionDataGenerator = new SubscriptionDataGenerator();
     }
 
-    public static void configureEnvironment() throws  Exception{
-        CoreUtils.configureEnvironment();
+    public  void configureEnvironment() throws  Exception{
+        CoreUtils.configureTestEnvironment();
     }
 
     public static void main(String args[])throws Exception{
-        configureEnvironment();
-        subscription();
+        BulkDataGenerator bulkDataGenerator = new BulkDataGenerator();
+        bulkDataGenerator.configureEnvironment();
+        BulkDataGenScenario scenario = BulkDataGenScenario.DIFF_STATES;
+        switch (scenario){
+            case DIFF_STATES:
+                bulkDataGenerator.createDataWithDifferentStates();
+        }
     }
-    
+
+    public void createDataWithDifferentStates() throws Exception{
+        subscriptionDataGenerator.createDataWithDifferentStates();
+    }
+
+
+
+    public enum BulkDataGenScenario{
+        DIFF_STATES
+    }
 
 }
