@@ -1,6 +1,7 @@
 package test.java.bulk_data;
 
 import com.chargebee.qa.apimethods.PlansAPI;
+import com.chargebee.v2.internal.Request;
 import com.chargebee.v2.models.Plan;
 import com.chargebee.v2.Result;
 import com.chargebee.v2.models.enums.PricingModel;
@@ -13,17 +14,21 @@ public class PlanDataGenerator {
     /**
      * Creates an active plan
      */
-    public void createRecursiveTrialPlanWithActive(Integer trialDays, Integer price) throws Exception{
-        Result result = Plan.create()
-                        .id("active")
+    public Result createRecursiveTrialPlanWithActive(Integer trialDays, Integer price, String idSuffix) throws Exception{
+        Plan.CreateRequest request = Plan.create()
                         .price(price)
+                        .id((idSuffix.isEmpty() || idSuffix ==null) ? "active" :"active"+idSuffix)
+                        .name("active"+idSuffix)
                         .pricingModel(PricingModel.FLAT_FEE)
                         .currencyCode(Currency.USD)
                         .periodUnit(Plan.PeriodUnit.MONTH)
-                        .trialPeriod(trialDays)
                         .status(Plan.Status.ACTIVE)
-                        .request()
                         ;
+        if(trialDays>0){
+             request.trialPeriod(trialDays);
+        }
+        Result result = request.request();
+        return result;
 
     }
 

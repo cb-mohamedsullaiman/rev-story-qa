@@ -20,8 +20,21 @@ public class SubscriptionDataGenerator {
        return subscriptionsAPI.createTrialSubscription();
     }
 
+    public Result createSubWithActiveState() throws Exception{
+        return subscriptionsAPI.createSubscription();
+    }
+
+    public Result createSubWithActiveState(String planId) throws Exception{
+        return subscriptionsAPI.createSubscription(planId);
+    }
+
     public void createDataWithDifferentStates() throws Exception{
         createSubWithInTrialState();
+        createSubWithActiveState();
+    }
+
+    public void updateSubscription(String subId, String planId) throws Exception{
+        subscriptionsAPI.updateSubscription(subId,planId);
     }
 
 
